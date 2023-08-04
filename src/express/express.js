@@ -1,5 +1,6 @@
 'use strict';
 
+const chalk = require(`chalk`);
 const express = require(`express`);
 const mainRoutes = require(`./routes/main-routes`);
 const path = require(`path`);
@@ -29,4 +30,13 @@ app.use(`/offers`, offersRoutes);
 app.use(`/search`, searchRoutes);
 app.use(`/category`, categoryRoutes);
 
-app.listen(DEFAULT_PORT);
+app.listen(DEFAULT_PORT, (err) => {
+  if (err) {
+    console.error(chalk.red(`При создании сервера возникла ошибка`));
+    console.error(err);
+
+    return;
+  }
+
+  console.log(chalk.green(`Сервер фронтенда успешно создан на порту ${DEFAULT_PORT} http://localhost:${DEFAULT_PORT}`));
+});
