@@ -1,21 +1,19 @@
 'use strict';
 
 const {Router} = require(`express`);
-const fs = require(`fs`).promises;
-const path = require(`path`);
+const {HttpCode, mocks} = require(`../constants`);
 
 const offersRouter = new Router();
 
-offersRouter.get(`/`, async (req, res) => {
-  try {
-    const fileContent = await fs.readFile(path.resolve(__dirname, `mocks.json`));
+offersRouter.get(`/`, (req, res) => {
+  if (!mocks.offers) {
+    res.status(HttpCode.OK).send([]);
 
-    const mocks = JSON.parse(fileContent);
-
-    res.json(mocks);
-  } catch (e) {
-    res.send([]);
+    return;
   }
+
+
+  res.status(HttpCode.OK).json(mocks.offers);
 });
 
 module.exports = offersRouter;
